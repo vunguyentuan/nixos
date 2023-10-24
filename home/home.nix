@@ -41,6 +41,7 @@
     pavucontrol
 
     #misc 
+    gcc
     cava
     nano
     rofi
