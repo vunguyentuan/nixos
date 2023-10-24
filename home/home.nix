@@ -25,6 +25,8 @@
     lollypop
     lutris
     openrgb
+    # require for gtk config
+    pkgs.dconf
     
 
     #utils
@@ -47,9 +49,9 @@
     grim
     slurp
     wl-clipboard
+    tty-clock
     pamixer
     mpc-cli
-    tty-clock
     eza
     btop
     zsh

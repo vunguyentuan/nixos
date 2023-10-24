@@ -17,15 +17,15 @@
     extraConfig = ''
 
     # Monitor
-    monitor=DP-1,1920x1080@165,auto,1
+    monitor=DP-1,1920x1080,auto,1
 
     # Fix slow startup
-    exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-    exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
+    # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+    # exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
 
     # Autostart
 
-    exec-once = hyprctl setcursor Bibata-Modern-Classic 24
+    # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
     exec-once = dunst
 
     source = /home/vunguyen/.config/hypr/colors
@@ -135,9 +135,6 @@
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
 
-    # Switch Keyboard Layouts
-    # bind = $mainMod, SPACE, exec, hyprctl switchxkblayout teclado-gamer-husky-blizzard next
-
     bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
     bind = SHIFT, Print, exec, grim -g "$(slurp)"
 
@@ -174,16 +171,16 @@
     bind = $mainMod, 0, workspace, 10
 
     # Move active window to a workspace with mainMod + SHIFT + [0-9]
-    bind = $mainMod SHIFT, 1, movetoworkspace, 1
-    bind = $mainMod SHIFT, 2, movetoworkspace, 2
-    bind = $mainMod SHIFT, 3, movetoworkspace, 3
-    bind = $mainMod SHIFT, 4, movetoworkspace, 4
-    bind = $mainMod SHIFT, 5, movetoworkspace, 5
-    bind = $mainMod SHIFT, 6, movetoworkspace, 6
-    bind = $mainMod SHIFT, 7, movetoworkspace, 7
-    bind = $mainMod SHIFT, 8, movetoworkspace, 8
-    bind = $mainMod SHIFT, 9, movetoworkspace, 9
-    bind = $mainMod SHIFT, 0, movetoworkspace, 10
+    bind = $mainMod CTRL, 1, movetoworkspace, 1
+    bind = $mainMod CTRL, 2, movetoworkspace, 2
+    bind = $mainMod CTRL, 3, movetoworkspace, 3
+    bind = $mainMod CTRL, 4, movetoworkspace, 4
+    bind = $mainMod CTRL, 5, movetoworkspace, 5
+    bind = $mainMod CTRL, 6, movetoworkspace, 6
+    bind = $mainMod CTRL, 7, movetoworkspace, 7
+    bind = $mainMod CTRL, 8, movetoworkspace, 8
+    bind = $mainMod CTRL, 9, movetoworkspace, 9
+    bind = $mainMod CTRL, 0, movetoworkspace, 10
 
     # Scroll through existing workspaces with mainMod + scroll
     bind = $mainMod, mouse_down, workspace, e+1
