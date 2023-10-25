@@ -8,9 +8,10 @@ inputs = {
    inputs.nixpkgs.follows = "nixpkgs";
   };
   hyprland.url = "github:hyprwm/Hyprland";
+  xremap-flake.url = "github:xremap/nix-flake";
 };
 
-outputs = { self, nixpkgs, home-manager, hyprland, ...}: 
+outputs = { self, nixpkgs, home-manager, hyprland, ...}@inputs: 
 
 let
   system = "x86_64-linux";
@@ -24,7 +25,7 @@ in {
 nixosConfigurations = {
     vunguyen = lib.nixosSystem rec {
       inherit system;
-      specialArgs = { inherit hyprland; };
+      specialArgs = { inherit hyprland; inherit inputs; };
       modules = [ 
         ./nixos/configuration.nix
         hyprland.nixosModules.default

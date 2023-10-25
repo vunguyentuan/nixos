@@ -1,21 +1,22 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
       ../hosts/desktop
+      inputs.xremap-flake.nixosModules.default
     ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+  #boot.loader.efi.canTouchEfiVariables = true;
 
   boot.loader.grub.enable = true;
   boot.loader.grub.devices = ["nodev"];
-  #boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
 
@@ -47,17 +48,30 @@
     LC_TIME = "vi_VN";
   };
 
+i18n.inputMethod = {
+  enabled = "ibus";
+  ibus.engines = with pkgs.ibus-engines; [ anthy ];
+ };
+
 services.xserver = {
    enable = true;
     layout = "us";
     xkbVariant = "";
+    videoDrivers = ["amdgpu"];
   };
+
+
 
   #NvidiaConfig
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+
+    extraPackages = with pkgs; [
+      rocm-opencl-icd
+      rocm-opencl-runtime
+    ];
   };
 
   programs.steam = {
@@ -78,6 +92,34 @@ services.xserver = {
     pulse.enable = true;
   };
 
+  services.xremap = {
+    userName = "vunguyen";
+    withHypr = true;
+    yamlConfig = ''
+keymap:
+  - name: Chrome
+    application:
+      not: Alacritty
+    remap:
+      Super-t: C-t
+      Super-c: C-c
+      Super-v: C-v
+      Super-w: C-w
+      Super-a: C-a
+      Super-r: C-r
+      Super-z: C-z
+      Super-e: C-e
+      Super-backspace: C-backspace
+      Super-Left: C-Left
+      Super-Right: C-Right
+    '';
+  };
+
+  #usb
+  services.devmon.enable = true;
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+
   # add /.local to $PATH
   environment.variables={
    NIXOS_OZONE_WL = "1";
@@ -91,6 +133,9 @@ services.xserver = {
 
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  pkgs.fnm
+  nodejs
+  gthumb
   git
   alacritty
   fish
@@ -113,6 +158,10 @@ services.xserver = {
     description = "Vu Nguyen";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
+      slack
+      _1password-gui
+      brave
+      darktable
       neofetch
       lolcat
    ];
