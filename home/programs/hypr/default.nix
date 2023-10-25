@@ -13,11 +13,21 @@
   #test later systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
   wayland.windowManager.hyprland = {
     enable = true;
+    xwayland.enable = true;
     systemdIntegration = true;
     extraConfig = ''
 
-    # Monitor
-    monitor=DP-1,1920x1080,auto,1
+# change monitor to high resolution, the last argument is the scale factor
+  monitor=,highres,auto,2
+
+# unscale XWayland
+  xwayland {
+    force_zero_scaling = true
+  }
+
+# toolkit-specific scale
+  env = GDK_SCALE,2
+  env = XCURSOR_SIZE,32
 
     # Fix slow startup
     # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
@@ -44,9 +54,10 @@
         kb_rules =
 
         follow_mouse = 1
+        natural_scroll = true
 
         touchpad {
-            natural_scroll = false
+            natural_scroll = true
         }
 
         sensitivity = 0 # -1.0 - 1.0, 0 means no modification.

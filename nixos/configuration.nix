@@ -19,6 +19,8 @@
   boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
+  boot.loader.grub.gfxmodeEfi = "1920x1080,auto";
+  boot.loader.grub.gfxmodeBios = "1920x1080,auto";
 
   boot.loader.grub.theme = pkgs.stdenv.mkDerivation {
     pname = "distro-grub-themes";
@@ -152,6 +154,11 @@ keymap:
   #  wget
   ];
 
+
+# Enable Bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  services.blueman.enable = true;
   
   users.users.vunguyen = {
     isNormalUser = true;
