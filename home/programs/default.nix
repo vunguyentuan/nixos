@@ -9,5 +9,6 @@
     ./zsh
     ./git
     ./nvim
+    ./tmux
   ];
 }

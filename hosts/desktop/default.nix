@@ -2,8 +2,7 @@
 {
   imports = [
     ./fonts
-   #  ./virtualisation
-   #  ./services
+    ./virtualisation
   ];
 
   programs.regreet.enable = true;

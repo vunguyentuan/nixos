@@ -1,21 +1,19 @@
 { config, pkgs, inputs, lib, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../hosts/desktop
-      inputs.xremap-flake.nixosModules.default
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../hosts/desktop
+    inputs.xremap-flake.nixosModules.default
+  ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
-  #boot.loader.efi.canTouchEfiVariables = true;
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.devices = ["nodev"];
+  boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
@@ -36,6 +34,10 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  networking.extraHosts =
+    ''
+      127.0.0.1 local.wisorylab.com
+    '';
 
   time.timeZone = "Asia/Ho_Chi_Minh";
   i18n.extraLocaleSettings = {
@@ -50,19 +52,17 @@
     LC_TIME = "vi_VN";
   };
 
-i18n.inputMethod = {
-  enabled = "ibus";
-  ibus.engines = with pkgs.ibus-engines; [ anthy ];
- };
-
-services.xserver = {
-   enable = true;
-    layout = "us";
-    xkbVariant = "";
-    videoDrivers = ["amdgpu"];
+  i18n.inputMethod = {
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ anthy ];
   };
 
-
+  services.xserver = {
+    enable = true;
+    layout = "us";
+    xkbVariant = "";
+    videoDrivers = [ "amdgpu" ];
+  };
 
   #NvidiaConfig
   hardware.opengl = {
@@ -70,16 +70,15 @@ services.xserver = {
     driSupport = true;
     driSupport32Bit = true;
 
-    extraPackages = with pkgs; [
-      rocm-opencl-icd
-      rocm-opencl-runtime
-    ];
+    extraPackages = with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ];
   };
 
+  hardware.keyboard.qmk.enable = true;
+
   programs.steam = {
-   enable = true;
-   remotePlay.openFirewall = true;
-   dedicatedServer.openFirewall = true;
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
 
   # Configure console keymap
@@ -95,25 +94,26 @@ services.xserver = {
   };
 
   services.xremap = {
+    serviceMode = "user"; # run xremap as user
     userName = "vunguyen";
     withHypr = true;
     yamlConfig = ''
-keymap:
-  - name: Chrome
-    application:
-      not: Alacritty
-    remap:
-      Super-t: C-t
-      Super-c: C-c
-      Super-v: C-v
-      Super-w: C-w
-      Super-a: C-a
-      Super-r: C-r
-      Super-z: C-z
-      Super-e: C-e
-      Super-backspace: C-backspace
-      Super-Left: C-Left
-      Super-Right: C-Right
+      keymap:
+        - name: Chrome
+          application:
+            not: [Alacritty, kitty]
+          remap:
+            Super-t: C-t
+            Super-c: C-c
+            Super-v: C-v
+            Super-w: C-w
+            Super-a: C-a
+            Super-r: C-r
+            Super-z: C-z
+            Super-e: C-e
+            Super-backspace: C-backspace
+            Super-Left: C-Left
+            Super-Right: C-Right
     '';
   };
 
@@ -123,43 +123,46 @@ keymap:
   services.udisks2.enable = true;
 
   # add /.local to $PATH
-  environment.variables={
-   NIXOS_OZONE_WL = "1";
-   PATH = [
-     "\${HOME}/.local/bin"
-     "\${HOME}/.config/rofi/scripts"
-   ];
-   NIXPKGS_ALLOW_UNFREE = "1";
+  environment.variables = {
+    NIXOS_OZONE_WL = "1";
+    PATH = [ "\${HOME}/.local/bin" "\${HOME}/.config/rofi/scripts" ];
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
-
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  pkgs.fnm
-  nodejs
-  gthumb
-  git
-  alacritty
-  fish
-  zsh
-	neovim
-	fzf
-	lazygit
-	bat
-	eza
-	ripgrep
-	tmux
-	firefox
-	kitty
-  #  wget
+    pkgs.fnm
+    obs-studio
+    nodejs
+    gthumb
+    git
+    alacritty
+    fish
+    zsh
+    neovim
+    fzf
+    lazygit
+    bat
+    eza
+    ripgrep
+    tmux
+    firefox
+    kitty
+    pkgs.vial
+    pkgs.wev
+    pkgs.youtube-dl
+    pkgs.sd
+    pkgs.fd
+    pkgs.yazi
+    pkgs.zoxide
+    pkgs.lazydocker
+    nixfmt
   ];
 
-
-# Enable Bluetooth
+  # Enable Bluetooth
   hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
+  hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
-  
+
   users.users.vunguyen = {
     isNormalUser = true;
     description = "Vu Nguyen";
@@ -171,11 +174,24 @@ keymap:
       darktable
       neofetch
       lolcat
-   ];
+    ];
+  };
+
+  programs._1password-gui = {
+    enable = true;
+
+    # Certain features, including CLI integration and system authentication support,
+    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
+    polkitPolicyOwners = [ "vunguyen" ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   #Garbage colector
   nix.gc = {
@@ -185,15 +201,15 @@ keymap:
   };
 
   system.autoUpgrade = {
-   enable = true;
-   channel = "https://nixos.org/channels/nixos-23.05";
+    enable = true;
+    channel = "https://nixos.org/channels/nixos-23.05";
   };
- 
+
   system.stateVersion = "23.05";
-  
+
   #Flakes
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = "experimental-features = nix-command flakes";
- };
+  };
 }

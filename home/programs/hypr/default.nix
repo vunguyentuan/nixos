@@ -131,7 +131,7 @@
     #windowrule=pin,^(firefox)$
 
     $mainMod = SUPER
-    bind = $mainMod, F, fullscreen,
+    bind = $mainMod CTRL, F, fullscreen,
 
 
     bind = $mainMod, RETURN, exec, kitty
@@ -139,12 +139,9 @@
     bind = $mainMod, L, exec, librewolf
     bind = $mainMod, Q, killactive,
     bind = $mainMod, M, exit,
-    bind = $mainMod, T, exec, nautilus
-    bind = $mainMod, V, togglefloating,
+    #bind = $mainMod, T, exec, nautilus
+    bind = $mainModCTRL, F, togglefloating,
     bind = $mainMod, Space, exec, rofi -show drun
-    bind = $mainMod, R, exec, rofiWindow
-    bind = $mainMod, P, pseudo, # dwindle
-    bind = $mainMod, J, togglesplit, # dwindle
 
     bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
     bind = SHIFT, Print, exec, grim -g "$(slurp)"
