@@ -9,7 +9,7 @@ if [ -e "$HOME/.config/gtk-4.0" ]; then
 fi
 
 DIR=$(pwd)
-cp -f /etc/nixos/hardware-configuration.nix "$DIR"/nixos/
+# cp -f /etc/nixos/hardware-configuration.nix "$DIR"/nixos/
 
 if [ ! -f ~/Imagens/wallpapers/menhera.jpg ]; then
     mkdir -p ~/Imagens/wallpapers/

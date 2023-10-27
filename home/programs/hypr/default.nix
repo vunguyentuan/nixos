@@ -8,6 +8,7 @@
   home.packages = with pkgs; [ 
     waybar
     swww
+    hyprpaper
   ];
   
   #test later systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
@@ -18,7 +19,7 @@
     extraConfig = ''
 
 # change monitor to high resolution, the last argument is the scale factor
-  monitor=,highres,auto,2
+  monitor=,highres,auto,auto
 
 # unscale XWayland
   xwayland {
@@ -140,7 +141,7 @@
     bind = $mainMod, Q, killactive,
     bind = $mainMod, M, exit,
     #bind = $mainMod, T, exec, nautilus
-    bind = $mainModCTRL, F, togglefloating,
+    bind = $mainMod CTRL, F, togglefloating,
     bind = $mainMod, Space, exec, rofi -show drun
 
     bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
@@ -198,6 +199,7 @@
     bindm = $mainMod, mouse:272, movewindow
     bindm = $mainMod, mouse:273, resizewindow
     bindm = ALT, mouse:272, resizewindow
+
         '';
   };
 

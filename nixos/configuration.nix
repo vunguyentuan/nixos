@@ -99,7 +99,7 @@
     withHypr = true;
     yamlConfig = ''
       keymap:
-        - name: Chrome
+        - name: MacOS
           application:
             not: [Alacritty, kitty]
           remap:
@@ -131,6 +131,7 @@
 
   environment.systemPackages = with pkgs; [
     pkgs.fnm
+    pkgs.wlogout
     obs-studio
     nodejs
     gthumb
@@ -153,7 +154,6 @@
     pkgs.sd
     pkgs.fd
     pkgs.yazi
-    pkgs.zoxide
     pkgs.lazydocker
     nixfmt
   ];

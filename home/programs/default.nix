@@ -10,5 +10,8 @@
     ./git
     ./nvim
     ./tmux
+    ./zoxide
+    ./swayidle
+    ./swaylock
   ];
 }

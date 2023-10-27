@@ -159,7 +159,7 @@
         ];
         "custom/launcher" = {
           "format" = " ";
-          "on-click" = "pkill rofi || rofi2";
+          "on-click" = "pkill rofi || rofi -show drun";
           "on-click-middle" = "exec default_wall";
           "on-click-right" = "exec wallpaper_random";
           "tooltip" = false;
@@ -219,8 +219,8 @@
         };
         "custom/powermenu" = {
           "format" = "";
-          "on-click" = "pkill rofi || ~/.config/rofi/powermenu/type-3/powermenu.sh";
-          "tooltip" = false;
+          "on-click" = "wlogout";
+          "tooltip" = true;
         };
         "tray" = {
           "icon-size" = 15;
