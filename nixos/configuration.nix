@@ -70,7 +70,11 @@
     driSupport = true;
     driSupport32Bit = true;
 
-    extraPackages = with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ];
+    extraPackages = with pkgs; [ 
+      rocm-opencl-icd 
+      rocm-opencl-runtime
+      amdvlk
+    ];
   };
 
   hardware.keyboard.qmk.enable = true;
@@ -122,6 +126,39 @@
   services.gvfs.enable = true;
   services.udisks2.enable = true;
 
+
+  # media group to be used by each service
+  users.groups.media = {
+    gid = 1800;
+    members = [
+      "vunguyen"
+    ];
+  };
+
+  # radarr
+  services.radarr = {
+    enable = true;
+    group = "media";
+
+  };
+
+  # Jellyfin
+  services.jellyfin = {
+    enable = true;
+    group = "media";
+  };
+
+  # prowlarr
+  services.prowlarr = {
+    enable = true;
+  };
+
+  services.transmission = { 
+    enable = true; #Enable transmission daemon
+    openRPCPort = true; #Open firewall for RPC
+  };
+
+
   # add /.local to $PATH
   environment.variables = {
     NIXOS_OZONE_WL = "1";
@@ -132,6 +169,10 @@
   environment.systemPackages = with pkgs; [
     pkgs.fnm
     pkgs.wlogout
+    pkgs.jellyfin
+    pkgs.radarr
+    pkgs.prowlarr
+    clinfo
     obs-studio
     nodejs
     gthumb
@@ -155,6 +196,8 @@
     pkgs.fd
     pkgs.yazi
     pkgs.lazydocker
+    # transmission
+    transgui
     nixfmt
   ];
 
@@ -201,7 +244,7 @@
   };
 
   system.autoUpgrade = {
-    enable = true;
+    enable = false;
     channel = "https://nixos.org/channels/nixos-23.05";
   };
 

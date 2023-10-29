@@ -19,7 +19,7 @@
     extraConfig = ''
 
 # change monitor to high resolution, the last argument is the scale factor
-  monitor=,highres,auto,auto
+  monitor=,highres,auto,2
 
 # unscale XWayland
   xwayland {
@@ -29,6 +29,10 @@
 # toolkit-specific scale
   env = GDK_SCALE,2
   env = XCURSOR_SIZE,32
+
+  misc {
+    focus_on_activate = true
+  }
 
     # Fix slow startup
     # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
@@ -158,8 +162,7 @@
     bind =,XF86AudioPause,exec,playerctl play-pause
 
     # to switch between windows in a floating workspace
-    bind = SUPER,Tab,cyclenext,
-    bind = SUPER,Tab,bringactivetotop,
+    bind = SUPER,Tab,workspace,previous
 
     # Move focus with mainMod + arrow keys
     bind = $mainMod, left, movefocus, l
