@@ -7,8 +7,9 @@
 
   home.packages = with pkgs; [ 
     waybar
+    swaybg
     swww
-    hyprpaper
+    waypaper
   ];
   
   #test later systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
@@ -39,13 +40,14 @@
     # exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
 
     # Autostart
+    exec-once= waybar & sleep 0.5 && waypaper --restore
 
     # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
     exec-once = dunst
 
     source = /home/vunguyen/.config/hypr/colors
     # exec = pkill waybar & sleep 0.5 && waybar
-    exec-once = waybar & swww init & sleep 0.5 && exec wallpaper_random
+    # exec-once = waybar & swww init & sleep 0.5 && exec wallpaper_random
     # exec-once = swww img /home/vunguyen/Imagens/wallpapers/konichiwa.png
 
     # Set en layout at startup

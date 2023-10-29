@@ -7,6 +7,8 @@
 #zshell
 shell zsh
 
+background_opacity      0.9
+
 # Remove close window confirm
 confirm_os_window_close 0
 
