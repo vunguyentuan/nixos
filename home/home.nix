@@ -1,4 +1,4 @@
-{ hyprland, pkgs, ...}: {
+{ hyprland, pkgs, ... }: {
 
   imports = [
     hyprland.homeManagerModules.default
@@ -14,7 +14,7 @@
   };
 
   home.packages = (with pkgs; [
-    
+
     #User Apps
     celluloid
     librewolf
@@ -27,7 +27,7 @@
     openrgb
     # require for gtk config
     pkgs.dconf
-    
+
 
     #utils
     wlr-randr
@@ -59,7 +59,7 @@
     fzf
     lazygit
 
-  ]) ++ (with pkgs.gnome; [ 
+  ]) ++ (with pkgs.gnome; [
     nautilus
     zenity
     gnome-tweaks

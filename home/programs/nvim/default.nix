@@ -490,6 +490,7 @@
               -- rust_analyzer = {},
               -- tsserver = {},
               cssls = {},
+              rnix = {},
               cssmodules_ls = {},
               vtsls = {},
               -- biome = {},
@@ -620,6 +621,32 @@
           end,
         },
         {
+          "ibhagwan/fzf-lua",
+          -- optional for icon support
+          dependencies = { "nvim-tree/nvim-web-devicons" },
+          cmd = "FzfLua",
+          keys = {
+            { "<leader><space>", "<cmd>FzfLua buffers<cr>",    desc = "Switch Buffer" },
+            { "<leader>f",       "<cmd>FzfLua files<cr>",      desc = "File files" },
+            { "<leader>ss",      "<cmd>FzfLua live_grep<cr>",  desc = "Live grep" },
+            { "<leader>gg",      "<cmd>FzfLua git_status<cr>", desc = "Git status" },
+          },
+          config = function()
+            -- calling `setup` is optional for customization
+            require("fzf-lua").setup({
+              -- 'telescope'
+              -- 'max-perf'
+              fullscreen = true,
+              keymap = {
+                fzf = {
+                  ['ctrl-q'] = 'select-all+accept',
+                },
+              },
+            })
+          end
+
+        },
+        {
           'echasnovski/mini.nvim',
           version = false,
           dependencies = {
@@ -665,22 +692,6 @@
             }
 
             require('mini.pairs').setup()
-            require('mini.pick').setup {
-              options = {
-                use_cache = true,
-              },
-              mappings = {
-                move_down = '<C-j>',
-                move_up = '<C-k>',
-              },
-              window = {
-                config = win_config,
-              },
-            }
-
-            keymap('n', '<leader>f', '<cmd>lua MiniPick.builtin.files()<cr>', { noremap = true, silent = true, desc = 'Find File' })
-            keymap('n', '<leader><space>', '<cmd>lua MiniPick.builtin.buffers()<cr>', { noremap = true, silent = true, desc = 'Find Buffer' })
-            keymap('n', '<leader>ss', '<cmd>lua MiniPick.builtin.grep_live()<cr>', { noremap = true, silent = true, desc = 'Find String' })
 
             require('mini.sessions').setup {
               autowrite = true,

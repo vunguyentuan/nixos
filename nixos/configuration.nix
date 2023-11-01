@@ -37,6 +37,8 @@
   networking.extraHosts =
     ''
       127.0.0.1 local.wisorylab.com
+      127.0.0.1 dev-cms.wisorylab.com
+      127.0.0.1 dev-cms.wisory.io
     '';
 
   time.timeZone = "Asia/Ho_Chi_Minh";
@@ -178,6 +180,7 @@
     gthumb
     git
     alacritty
+    contour
     fish
     zsh
     neovim
@@ -199,7 +202,21 @@
     # transmission
     transgui
     nixfmt
+    ddev
+    mkcert
+    pkgs.pritunl-client
   ];
+
+  systemd.packages = [ pkgs.pritunl-client ];
+  systemd.targets.multi-user.wants = [ "pritunl-client.service" ];
+
+  # Allow Xdebug to use port 9003.
+  networking.firewall.allowedTCPPorts = [ 9003 ];
+ 
+  # Make it possible for ddev to modify the /etc/hosts file.
+  # Otherwise you'll have to manually change the
+  # hosts configuration after creating a new ddev project.
+  environment.etc.hosts.mode = "0644";
 
   # Enable Bluetooth
   hardware.bluetooth.enable = true;
