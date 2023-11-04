@@ -17,9 +17,6 @@
 
     #User Apps
     celluloid
-    librewolf
-    kitty
-    alacritty
     bibata-cursors
     vscode
     lollypop
@@ -55,7 +52,6 @@
     mpc-cli
     eza
     btop
-    zsh
     fzf
     lazygit
 

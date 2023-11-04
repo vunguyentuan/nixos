@@ -72,8 +72,8 @@
     driSupport = true;
     driSupport32Bit = true;
 
-    extraPackages = with pkgs; [ 
-      rocm-opencl-icd 
+    extraPackages = with pkgs; [
+      rocm-opencl-icd
       rocm-opencl-runtime
       amdvlk
     ];
@@ -155,11 +155,12 @@
     enable = true;
   };
 
-  services.transmission = { 
+  services.transmission = {
     enable = true; #Enable transmission daemon
     openRPCPort = true; #Open firewall for RPC
   };
 
+  programs.zsh.enable = true;
 
   # add /.local to $PATH
   environment.variables = {
@@ -182,7 +183,6 @@
     alacritty
     contour
     fish
-    zsh
     neovim
     fzf
     lazygit
@@ -192,6 +192,7 @@
     tmux
     firefox
     kitty
+    python3
     pkgs.vial
     pkgs.wev
     pkgs.youtube-dl
@@ -212,7 +213,7 @@
 
   # Allow Xdebug to use port 9003.
   networking.firewall.allowedTCPPorts = [ 9003 ];
- 
+
   # Make it possible for ddev to modify the /etc/hosts file.
   # Otherwise you'll have to manually change the
   # hosts configuration after creating a new ddev project.
@@ -223,9 +224,11 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
+  users.defaultUserShell = pkgs.zsh;
   users.users.vunguyen = {
     isNormalUser = true;
     description = "Vu Nguyen";
+    useDefaultShell = true;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       slack

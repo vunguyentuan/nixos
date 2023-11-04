@@ -41,6 +41,7 @@
 
     # Autostart
     exec-once= waybar & sleep 0.5 && waypaper --restore
+    exec-once= swayidle -w timeout 120 ' swaylock ' timeout 400 ' hyprctl dispatch dpms off' timeout 12000 'systemctl suspend' resume ' hyprctl dispatch dpms on' before-sleep 'swaylock'
 
     # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
     exec-once = dunst
